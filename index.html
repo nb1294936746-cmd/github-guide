@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GitHub 使用指南 — 新手入门</title>
+<style>
+:root {
+  --bg: #0d1117;
+  --bg-card: #161b22;
+  --border: #30363d;
+  --text: #e6edf3;
+  --text-muted: #8b949e;
+  --accent: #58a6ff;
+  --accent-light: #79c0ff;
+  --green: #3fb950;
+  --orange: #d29922;
+  --red: #f85149;
+  --purple: #bc8cff;
+  --radius: 10px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  background: var(--bg); color: var(--text); line-height: 1.8;
+}
+::selection { background: var(--accent); color: #fff; }
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: #30363d; border-radius: 4px; }
+
+nav {
+  position: fixed; top:0; left:0; right:0; z-index:100;
+  background: rgba(13,17,23,0.95); border-bottom: 1px solid var(--border);
+  padding: 0 2rem; backdrop-filter: blur(10px);
+}
+.nav-inner {
+  max-width: 900px; margin:0 auto; display:flex; align-items:center;
+  justify-content:space-between; height: 56px;
+}
+.nav-logo { font-size:1.1rem; font-weight:700; color:var(--text); text-decoration:none; }
+.nav-logo span { color: var(--accent); }
+.nav-links { display:flex; gap:0.3rem; list-style:none; flex-wrap:wrap; }
+.nav-links a {
+  color:var(--text-muted); text-decoration:none; padding:0.3rem 0.7rem;
+  border-radius:6px; font-size:0.85rem; transition:all .2s;
+}
+.nav-links a:hover { color:var(--text); background:rgba(88,166,255,0.1); }
+
+.container { max-width:900px; margin:0 auto; padding:2rem 1.5rem; }
+h1 { font-size:2rem; margin-bottom:0.5rem; }
+h1 span { color:var(--accent); }
+h2 {
+  font-size:1.4rem; color:var(--accent); margin:2.5rem 0 1rem;
+  padding-bottom:0.5rem; border-bottom:1px solid var(--border);
+}
+h3 { font-size:1.1rem; color:var(--green); margin:1.5rem 0 0.8rem; }
+p { margin-bottom:0.8rem; }
+
+.hero {
+  padding: 5rem 1.5rem 2rem; text-align:center;
+  background: radial-gradient(ellipse at 50% 0%, rgba(88,166,255,0.1) 0%, transparent 70%);
+}
+.hero p { color:var(--text-muted); font-size:1.1rem; }
+.badge {
+  display:inline-block; padding:0.2rem 0.7rem; border-radius:20px;
+  font-size:0.8rem; font-weight:600; margin:0.2rem;
+}
+.badge-blue { background:rgba(88,166,255,0.15); color:var(--accent); }
+.badge-green { background:rgba(63,185,80,0.15); color:var(--green); }
+
+.card {
+  background: var(--bg-card); border:1px solid var(--border); border-radius:var(--radius);
+  padding:1.5rem; margin-bottom:1rem;
+}
+.card-highlight { border-left: 3px solid var(--accent); }
+.card-warn { border-left: 3px solid var(--orange); }
+.card-success { border-left: 3px solid var(--green); }
+
+.step-num {
+  display:inline-flex; align-items:center; justify-content:center;
+  width:28px; height:28px; border-radius:50%; background:var(--accent);
+  color:#fff; font-weight:700; font-size:0.85rem; margin-right:0.5rem; flex-shrink:0;
+}
+.step {
+  display:flex; align-items:flex-start; margin-bottom:1.2rem;
+  padding:1rem; background:var(--bg-card); border-radius:var(--radius); border:1px solid var(--border);
+}
+.step-body { flex:1; }
+.step-body strong { color:var(--accent-light); }
+
+.url-box {
+  background:rgba(88,166,255,0.08); border:1px solid rgba(88,166,255,0.2);
+  border-radius:8px; padding:0.8rem 1rem; margin:0.5rem 0; font-family:monospace;
+  font-size:0.95rem; word-break:break-all; color:var(--accent-light);
+}
+
+table { width:100%; border-collapse:collapse; margin:0.8rem 0; }
+th { text-align:left; padding:0.6rem 0.8rem; background:rgba(88,166,255,0.08); color:var(--accent); font-size:0.9rem; }
+td { padding:0.6rem 0.8rem; border-bottom:1px solid var(--border); color:var(--text-muted); font-size:0.9rem; }
+
+.grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+@media(max-width:700px) { .grid-2 { grid-template-columns:1fr; } }
+
+ul, ol { padding-left:1.5rem; margin-bottom:0.8rem; color:var(--text-muted); }
+li { margin-bottom:0.4rem; }
+code {
+  background:rgba(88,166,255,0.1); color:var(--accent-light);
+  padding:0.15rem 0.4rem; border-radius:4px; font-size:0.9rem;
+}
+
+.img-placeholder {
+  background: var(--bg-card); border:1px dashed var(--border); border-radius:8px;
+  padding:2rem; text-align:center; color:var(--text-muted); margin:0.8rem 0;
+}
+
+footer {
+  text-align:center; padding:2rem; color:var(--text-muted); font-size:0.85rem;
+  border-top:1px solid var(--border); margin-top:3rem;
+}
+
+.toc { padding:1rem 1.5rem; }
+.toc a { color:var(--accent); text-decoration:none; }
+.toc a:hover { text-decoration:underline; }
+.toc li { margin-bottom:0.3rem; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="nav-logo"><span>GitHub</span> 使用指南</a>
+    <ul class="nav-links">
+      <li><a href="#bookmark">收藏地址</a></li>
+      <li><a href="#login">登录</a></li>
+      <li><a href="#repo">查看仓库</a></li>
+      <li><a href="#pages">查看网站</a></li>
+      <li><a href="#edit">修改文件</a></li>
+      <li><a href="#terms">术语</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="hero">
+  <span class="badge badge-blue">新手友好</span>
+  <span class="badge badge-green">图文教程</span>
+  <h1>GitHub <span>使用指南</span></h1>
+  <p>专门为你整理的 GitHub 日常操作手册</p>
+</div>
+
+<div class="container">
+
+  <!-- ==================== 你的专属地址 ==================== -->
+  <h2 id="bookmark">📌 你的专属地址（建议收藏）</h2>
+  
+  <div class="card card-highlight">
+    <h3 style="color:var(--accent); margin-top:0;">你需要记住的只有两个网址：</h3>
+    
+    <p style="margin-top:1rem;"><strong style="color:var(--green);">1. 仓库管理页（后台）</strong> — 管理代码、查看文件</p>
+    <div class="url-box">https://github.com/nb1294936746-cmd/comfyui-tutorial</div>
+    
+    <p style="margin-top:1rem;"><strong style="color:var(--green);">2. 教程网站（前台）</strong> — 你发给别人的链接</p>
+    <div class="url-box">https://nb1294936746-cmd.github.io/comfyui-tutorial/</div>
+    
+    <div style="margin-top:1.5rem; padding:1rem; background:rgba(63,185,80,0.08); border-radius:8px;">
+      <strong>💡 收藏方法：</strong>在浏览器中打开上面的地址，然后按 <code>Ctrl + D</code>，点确认即可加入收藏夹。以后从收藏夹直接打开就行。
+    </div>
+  </div>
+
+  <!-- ==================== 登录 GitHub ==================== -->
+  <h2 id="login">🔑 如何登录 GitHub</h2>
+
+  <div class="step">
+    <span class="step-num">1</span>
+    <div class="step-body">
+      打开浏览器，在地址栏输入 <strong>github.com</strong>，按回车
+    </div>
+  </div>
+  <div class="step">
+    <span class="step-num">2</span>
+    <div class="step-body">
+      点击右上角 <strong>Sign in</strong>（登录）按钮
+    </div>
+  </div>
+  <div class="step">
+    <span class="step-num">3</span>
+    <div class="step-body">
+      输入你的 <strong>用户名或邮箱</strong> 和 <strong>密码</strong>，点击 Sign in<br>
+      <span style="color:var(--text-muted); font-size:0.9rem;">你的用户名是：<code>nb1294936746-cmd</code></span>
+    </div>
+  </div>
+  <div class="step">
+    <span class="step-num">4</span>
+    <div class="step-body">
+      登录成功后，你会看到 GitHub 首页（Dashboard），右上角有你的头像
+    </div>
+  </div>
+
+  <div class="card card-warn">
+    <strong>⚠️ 忘记密码怎么办？</strong>
+    <p style="margin-top:0.5rem; color:var(--text-muted);">在登录页面点 <strong>"Forgot password?"</strong>，输入注册邮箱，GitHub 会发一封重置密码的邮件给你。</p>
+  </div>
+
+  <!-- ==================== 查看仓库 ==================== -->
+  <h2 id="repo">📁 如何查看你的仓库</h2>
+
+  <h3>方法一：直接访问地址（最快）</h3>
+  <div class="step">
+    <span class="step-num">1</span>
+    <div class="step-body">
+      在浏览器地址栏直接输入你的仓库地址：<br>
+      <div class="url-box">https://github.com/nb1294936746-cmd/comfyui-tutorial</div>
+    </div>
+  </div>
+
+  <h3>方法二：从 GitHub 首页找到仓库</h3>
+  <div class="step">
+    <span class="step-num">1</span>
+    <div class="step-body">
+      登录 GitHub 后，点击右上角你的 <strong>头像</strong>
+    </div>
+  </div>
+  <div class="step">
+    <span class="step-num">2</span>
+    <div class="step-body">
+      在下拉菜单中点击 <strong>"Your repositories"</strong>（你的仓库）
+    </div>
+  </div>
+  <div class="step">
+    <span class="step-num">3</span>
+    <div class="step-body">
+      在仓库列表中找到 <strong>comfyui-tutorial</strong>，点击进入
+    </div>
+  </div>
+
+  <div class="card card-success">
+    <strong>✅ 仓库页面说明</strong>
+    <p style="margin-top:0.5rem; color:var(--text-muted);">进入仓库后你会看到：</p>
+    <table>
+      <tr><td style="color:var(--accent-light); font-weight:600;">文件列表区</td><td>显示仓库中的所有文件（目前只有 index.html）</td></tr>
+      <tr><td style="color:var(--accent-light); font-weight:600;">Code 按钮（绿色）</td><td>点击可以下载仓库的所有文件到本地</td></tr>
+      <tr><td style="color:var(--accent-light); font-weight:600;">Settings 标签</td><td>仓库设置，包括 GitHub Pages 配置</td></tr>
+      <tr><td style="color:var(--accent-light); font-weight:600;">Actions 标签</td><td>查看自动部署的状态（绿色✓=成功）</td></tr>
+    </table>
+  </div>
+
+  <!-- ==================== 查看网站 ==================== -->
+  <h2 id="pages">🌐 如何查看你的教程网站</h2>
+
+  <h3>方法一：直接访问（推荐）</h3>
+  <div class="step">
+    <span class="step-num">1</span>
+    <div class="step-body">
+      在浏览器地址栏输入你的网站地址：<br>
+      <div class="url-box">https://nb1294936746-cmd.github.io/comfyui-tutorial/</div>
+      这就是你发给别人的那个链接，别人打开看到的内容跟你一模一样。
+    </div>
+  </div>
+
+  <h3>方法二：从仓库页面进入</h3>
+  <div class="step">
+    <span class="step-num">1</span>
+    <div class="step-body">
+      打开仓库页面 → 点击右侧边栏的 <strong>"github-pages"</strong> 链接<br>
+      <span style="color:var(--text-muted); font-size:0.9rem;">或者点 Settings → 左侧 Pages → 页面上方会显示你的网站地址</span>
+    </div>
+  </div>
+
+  <div class="card card-highlight">
+    <strong>💡 关于网站更新</strong>
+    <p style="margin-top:0.5rem; color:var(--text-muted);">每次仓库中的文件更新后，GitHub 会自动重新部署网站（大约 1-2 分钟）。你不需要做任何额外操作，刷新网页就能看到最新内容。</p>
+  </div>
+
+  <!-- ==================== 修改/更新文件 ==================== -->
+  <h2 id="edit">✏️ 如何更新教程内容</h2>
+
+  <h3>方法一：让 AI 助手帮你更新（最简单）</h3>
+  <div class="card card-success">
+    <p>在 Cursor 中告诉 AI 你想修改什么内容，AI 会自动：</p>
+    <ol style="margin-top:0.5rem;">
+      <li>修改本地的 HTML 文件</li>
+      <li>推送更新到 GitHub</li>
+      <li>网站自动更新</li>
+    </ol>
+    <p style="margin-top:0.5rem; color:var(--green);">你只需要说"帮我更新教程网站的 xxx 内容"就行。</p>
+  </div>
+
+  <h3>方法二：在 GitHub 网页上直接编辑</h3>
+  <div class="step">
+    <span class="step-num">1</span>
+    <div class="step-body">
+      打开仓库页面：<strong>github.com/nb1294936746-cmd/comfyui-tutorial</strong>
+    </div>
+  </div>
+  <div class="step">
+    <span class="step-num">2</span>
+    <div class="step-body">
+      点击 <strong>index.html</strong> 文件名，进入文件查看页
+    </div>
+  </div>
+  <div class="step">
+    <span class="step-num">3</span>
+    <div class="step-body">
+      点击右上角的 <strong>铅笔图标 ✏️</strong>（Edit this file），进入编辑模式
+    </div>
+  </div>
+  <div class="step">
+    <span class="step-num">4</span>
+    <div class="step-body">
+      修改内容后，滚动到页面底部，在 <strong>"Commit changes"</strong> 区域写一句说明（如"更新了节点教程"），然后点击绿色的 <strong>"Commit changes"</strong> 按钮
+    </div>
+  </div>
+  <div class="step">
+    <span class="step-num">5</span>
+    <div class="step-body">
+      等 1-2 分钟，刷新你的网站地址，就能看到更新了
+    </div>
+  </div>
+
+  <h3>方法三：上传新文件替换</h3>
+  <div class="step">
+    <span class="step-num">1</span>
+    <div class="step-body">
+      打开仓库页面
+    </div>
+  </div>
+  <div class="step">
+    <span class="step-num">2</span>
+    <div class="step-body">
+      点击 <strong>"Add file"</strong> → <strong>"Upload files"</strong>
+    </div>
+  </div>
+  <div class="step">
+    <span class="step-num">3</span>
+    <div class="step-body">
+      将本地修改好的 HTML 文件<strong>重命名为 <code>index.html</code></strong>，拖拽上传<br>
+      <span style="color:var(--orange);">⚠️ 文件名必须是 index.html，否则网站无法正确显示</span>
+    </div>
+  </div>
+  <div class="step">
+    <span class="step-num">4</span>
+    <div class="step-body">
+      GitHub 会提示文件已存在是否覆盖，确认后点 <strong>"Commit changes"</strong>
+    </div>
+  </div>
+
+  <!-- ==================== 如何分享 ==================== -->
+  <h2 id="share">📤 如何分享给别人</h2>
+
+  <div class="card card-success">
+    <h3 style="margin-top:0; color:var(--green);">直接发送这个链接即可：</h3>
+    <div class="url-box" style="font-size:1.1rem; text-align:center;">https://nb1294936746-cmd.github.io/comfyui-tutorial/</div>
+    <p style="margin-top:1rem; color:var(--text-muted);">对方不需要注册 GitHub，不需要安装任何东西，在任何设备（电脑、手机、平板）的浏览器中打开就能看到。</p>
+    <div class="grid-2" style="margin-top:1rem;">
+      <div style="padding:0.8rem; background:rgba(88,166,255,0.08); border-radius:8px;">
+        <strong>微信分享：</strong><br>
+        <span style="color:var(--text-muted); font-size:0.9rem;">直接把链接粘贴到聊天框发送。对方点击就能在微信内置浏览器中打开。</span>
+      </div>
+      <div style="padding:0.8rem; background:rgba(88,166,255,0.08); border-radius:8px;">
+        <strong>QQ / 钉钉 / 邮件：</strong><br>
+        <span style="color:var(--text-muted); font-size:0.9rem;">同样直接粘贴链接发送即可。</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== 常见问题 ==================== -->
+  <h2 id="faq">❓ 常见问题</h2>
+
+  <div class="card" style="margin-bottom:1rem;">
+    <h3 style="margin-top:0; color:var(--orange);">Q：网站打不开 / 显示 404 怎么办？</h3>
+    <p style="color:var(--text-muted);">A：刚部署后可能需要等 2-5 分钟才能访问。如果持续 404，检查仓库中是否有 <code>index.html</code> 文件，以及 Settings → Pages 中是否正确配置了部署源。</p>
+  </div>
+
+  <div class="card" style="margin-bottom:1rem;">
+    <h3 style="margin-top:0; color:var(--orange);">Q：GitHub 需要付费吗？</h3>
+    <p style="color:var(--text-muted);">A：不需要。GitHub 个人账号免费使用，GitHub Pages 托管静态网站也是免费的，不限流量。</p>
+  </div>
+
+  <div class="card" style="margin-bottom:1rem;">
+    <h3 style="margin-top:0; color:var(--orange);">Q：别人能修改我的网站吗？</h3>
+    <p style="color:var(--text-muted);">A：不能。只有你自己登录 GitHub 后才能修改仓库中的文件。别人只能查看，不能编辑。</p>
+  </div>
+
+  <div class="card" style="margin-bottom:1rem;">
+    <h3 style="margin-top:0; color:var(--orange);">Q：可以绑定自己的域名吗？</h3>
+    <p style="color:var(--text-muted);">A：可以。在仓库 Settings → Pages → Custom domain 中填写你的域名，再去域名服务商设置 DNS 解析指向 GitHub 即可。这是可选的高级操作。</p>
+  </div>
+
+  <div class="card" style="margin-bottom:1rem;">
+    <h3 style="margin-top:0; color:var(--orange);">Q：想删除这个网站怎么办？</h3>
+    <p style="color:var(--text-muted);">A：进入仓库 → Settings → 滚动到最底部 "Danger Zone" → Delete this repository。删除后网站就下线了。</p>
+  </div>
+
+  <!-- ==================== 术语表 ==================== -->
+  <h2 id="terms">📖 GitHub 术语表</h2>
+
+  <div class="card">
+    <table>
+      <thead>
+        <tr><th style="width:25%;">术语</th><th>含义</th></tr>
+      </thead>
+      <tbody>
+        <tr><td style="color:var(--accent-light); font-weight:600;">Repository（仓库）</td><td>存放项目文件的地方，类似一个文件夹</td></tr>
+        <tr><td style="color:var(--accent-light); font-weight:600;">Commit（提交）</td><td>保存一次修改记录，类似"存档"</td></tr>
+        <tr><td style="color:var(--accent-light); font-weight:600;">Push（推送）</td><td>把本地修改上传到 GitHub</td></tr>
+        <tr><td style="color:var(--accent-light); font-weight:600;">Pull（拉取）</td><td>把 GitHub 上的最新内容下载到本地</td></tr>
+        <tr><td style="color:var(--accent-light); font-weight:600;">Branch（分支）</td><td>独立的修改线路，main 是主分支</td></tr>
+        <tr><td style="color:var(--accent-light); font-weight:600;">GitHub Pages</td><td>GitHub 提供的免费静态网站托管服务</td></tr>
+        <tr><td style="color:var(--accent-light); font-weight:600;">Actions</td><td>自动化任务，用于自动部署网站等</td></tr>
+        <tr><td style="color:var(--accent-light); font-weight:600;">Fork（复制）</td><td>把别人的仓库复制一份到自己的账号下</td></tr>
+        <tr><td style="color:var(--accent-light); font-weight:600;">Star（收藏）</td><td>给喜欢的项目点赞/收藏</td></tr>
+        <tr><td style="color:var(--accent-light); font-weight:600;">Issue（议题）</td><td>用来提问、反馈 Bug 或讨论功能</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ==================== 快速参考卡 ==================== -->
+  <h2 id="quickref">⚡ 快速参考卡</h2>
+
+  <div class="card" style="background:rgba(88,166,255,0.05); border:1px solid rgba(88,166,255,0.2);">
+    <div class="grid-2">
+      <div>
+        <h3 style="margin-top:0; color:var(--accent);">📍 你的地址</h3>
+        <p style="font-size:0.9rem; color:var(--text-muted);">
+          <strong>GitHub 用户名：</strong><br><code>nb1294936746-cmd</code><br><br>
+          <strong>仓库地址：</strong><br><code style="word-break:break-all;">github.com/nb1294936746-cmd/comfyui-tutorial</code><br><br>
+          <strong>网站地址：</strong><br><code style="word-break:break-all;">nb1294936746-cmd.github.io/comfyui-tutorial/</code>
+        </p>
+      </div>
+      <div>
+        <h3 style="margin-top:0; color:var(--accent);">🔄 日常操作</h3>
+        <p style="font-size:0.9rem; color:var(--text-muted);">
+          <strong>查看网站：</strong><br>浏览器打开网站地址<br><br>
+          <strong>管理仓库：</strong><br>浏览器打开仓库地址<br><br>
+          <strong>更新内容：</strong><br>① 在 Cursor 中让 AI 更新<br>② 或在 GitHub 网页编辑<br>③ 或上传新文件覆盖
+        </p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <p>GitHub 使用指南 | 为你专门整理 | 2025</p>
+  <p style="margin-top:0.3rem;">收藏此页面以便随时查阅</p>
+</footer>
+
+</body>
+</html>
